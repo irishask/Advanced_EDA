@@ -7,10 +7,6 @@ But when I need to analyze just specific features, I prefer to use my Advanced_E
 
 **Add EXAMPLES to some methods
 
-# To use 'Advanced_EDA' - download file 'Advanced_EDA_ISK.ipynb' and save it into toyur project's directory.
-# Import it to your jupyter-notebook as follow:
-import import_ipynb      # to import jupyter-notebook A into notebook B
-import Advanced_EDA_ISK  # to import Advanced_EDA_ISK.ipynb
 
 
 
