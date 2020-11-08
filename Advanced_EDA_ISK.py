@@ -1,4 +1,4 @@
-## -- 31/30/2020 ------------
+# Last update: 8/11/2020
 ## Editing Portfolio methods
 import pandas as pd
 import numpy as np
@@ -140,10 +140,14 @@ class Advanced_EDA():
     #      1) print sizes of groups (="group_size")
     #      2) print values for 3 biggest groups (by "group_size") => top to down
     #
-    def Val_IfUnique_or_print_top_gropSizes(self, col_name, num_of_top_size_groups=5):
-        # Counts how many value are in the column (including 'NaN' )
-        df_by_value_size = pd.DataFrame(self.df.groupby(col_name).size().rename("group_size")).reset_index()
-        num_of_nan_in_col_name = self.df[self.df[col_name].isna()].shape[0]
+    def Val_IfUnique_or_print_top_gropSizes(self, col_name, num_of_top_size_groups=500):
+        try:
+            # Counts how many value are in the column (including 'NaN' )
+            df_by_value_size = pd.DataFrame(self.df.groupby(col_name).size().rename("group_size")).reset_index()
+            num_of_nan_in_col_name = self.df[self.df[col_name].isna()].shape[0]
+        except KeyError:
+            print(f"Column '{col_name}' does not exists in current dataset. Check column name again! \n")
+            return;
 
         if (len(df_by_value_size) == len(self.df)):
             print(col_name, " has UNIQUE values")
@@ -267,16 +271,30 @@ class Advanced_EDA():
 
     # Display all duplicated rows with Specific Value in specific column.
     # If dropna=False => with None values. Othwerwise - without None
-    def get_SubDF_of_duplicates_for_specificVal_in_specificCol(self, col_name, checked_val, dropnav=False, \
-                                                               returndf=False):
+    def get_SubDF_of_duplicates_for_specificVal_in_specificCol(self, col_name, checked_val, dropnav=False, returndf=False):
         # print ("-"*50)
+        if (col_name not in self.df.columns):  #Key validation
+            print(f"Column '{col_name}' does not exists in current dataset. Check column name again! \n")
+            return;
+        # elif ( type(checked_val) != type(self.df[col_name].iloc[0])):   #Type validation
+        #     print(f"Values in column '{col_name}' have '{type(self.df[col_name].iloc[0])}' type! \n")
+        #     return;
+        elif (checked_val not in self.df[col_name].array):   #Value and Type validation
+            print(f"Value Column '{checked_val}' does not exists in column '{col_name}'!")
+            print(f"Check again the wanted value or it's type.\n"
+                  f"The type of values in column '{col_name}' is '{type(self.df[col_name].iloc[0])} '"
+                  f"The type of your wanted value is '{type(checked_val)}'\n")
+            return;
+
         print(f"SUB-DF WITH VALUE ='{checked_val}' IN COLUMN '{col_name}':\n")
 
         SubDF_with_specific_value = self.df[self.df[col_name] == checked_val]
+        if (SubDF_with_specific_value.shape[0] < 2):
+            print (f"There is NO DUPLICATES with '{col_name}' = '{checked_val}'.\n")
         print("Sub-dataframes shape:", SubDF_with_specific_value.shape)
         print("Sub-dataframes describtion:", SubDF_with_specific_value.describe())
-        print("Sample(5) of Sub-df:")
-        print(SubDF_with_specific_value.sample(5))
+        print("Sample() of Sub-df:")
+        print(SubDF_with_specific_value.sample())
 
         if dropnav:
             print("Unique NON-None values in Sub-df:", SubDF_with_specific_value.nunique(dropna=True))
