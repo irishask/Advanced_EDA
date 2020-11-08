@@ -1,4 +1,5 @@
 # Last update: 8/11/2020
+
 ## Editing Portfolio methods
 import pandas as pd
 import numpy as np
@@ -281,20 +282,21 @@ class Advanced_EDA():
         #     return;
         elif (checked_val not in self.df[col_name].array):   #Value and Type validation
             print(f"Value Column '{checked_val}' does not exists in column '{col_name}'!")
-            print(f"Check again the wanted value or it's type.\n"
-                  f"The type of values in column '{col_name}' is '{type(self.df[col_name].iloc[0])} '"
+            print(f"Check again the wanted value OR it's type.\n"
+                  f"\t**The type of values in column '{col_name}' is '{type(self.df[col_name].iloc[0])} '"
                   f"The type of your wanted value is '{type(checked_val)}'\n")
             return;
 
-        print(f"SUB-DF WITH VALUE ='{checked_val}' IN COLUMN '{col_name}':\n")
+        print(f"SUB-DF WITH VALUE = {checked_val} IN COLUMN '{col_name}':\n")
 
         SubDF_with_specific_value = self.df[self.df[col_name] == checked_val]
         if (SubDF_with_specific_value.shape[0] < 2):
-            print (f"There is NO DUPLICATES with '{col_name}' = '{checked_val}'.\n")
+            print (f"There is NO DUPLICATES in dataset with value={checked_val} in colimn '{col_name}'.\n")
         print("Sub-dataframes shape:", SubDF_with_specific_value.shape)
         print("Sub-dataframes describtion:", SubDF_with_specific_value.describe())
-        print("Sample() of Sub-df:")
-        print(SubDF_with_specific_value.sample())
+        num_of_samples = min(SubDF_with_specific_value.shape[0], 5)
+        print(f"Sample({num_of_samples}) of Sub-df:")
+        print(SubDF_with_specific_value.sample(num_of_samples))
 
         if dropnav:
             print("Unique NON-None values in Sub-df:", SubDF_with_specific_value.nunique(dropna=True))
@@ -410,6 +412,3 @@ class Advanced_EDA():
             return self.portfolio_subdf_duplicates
         else:
             return
-
-
-
