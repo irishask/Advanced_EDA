@@ -183,8 +183,8 @@ class Advanced_EDA():
         print(df_by_sizes_of_groups['group_size'].max())  # <=> self.df.groupby(col_name).size().max()
 
         # Set the number of Top values:
-        if (1 < len(df_by_sizes_of_groups) < num_of_top_size_groups): num_of_top_size_groups = len(
-            df_by_sizes_of_groups) - 1
+        if (1 < len(df_by_sizes_of_groups) < num_of_top_size_groups): 
+            num_of_top_size_groups = len(df_by_sizes_of_groups)   #- 1  
 
         # print values for Top biggest groups (by "group_size") in top to down order
         print(f'\nTop {num_of_top_size_groups} Sizes of groups:')
